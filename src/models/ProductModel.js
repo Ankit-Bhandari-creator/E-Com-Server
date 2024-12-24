@@ -16,7 +16,7 @@ const ProductSchema = mongoose.Schema({
     productSub_catId: { type: ObjectId },
     productDescription: { type: String },
     productTitle: { type: String },
-    productImg: { type: String }
+    productImg: { type: String, default: ".png" }
 },
     { timestamps: true })
 
