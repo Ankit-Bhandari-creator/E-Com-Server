@@ -21,7 +21,8 @@ const AdminSchema = mongoose.Schema({
     },
     password: { type: String, required: [true, "Password is required"], min: [6, 'password minimum 6 character is required !!'] },
     phone: { type: Number, unique: true, required: [true, "Number is required"] },
-    account_status: { type: Number, default: 0 }
+    account_status: { type: Number, default: 0 },
+    role: { type: String, required: [true] }
 },
     { timestamps: true })
 

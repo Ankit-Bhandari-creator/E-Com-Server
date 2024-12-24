@@ -16,6 +16,7 @@ exports.signup = async (req, res) => {
             email: bodyData.email,
             password: bodyData.password,
             phone: bodyData.phone,
+            role: bodyData.role
         }
 
         const resData = await AdminModel.create(insertData)
@@ -74,7 +75,8 @@ exports.login = async (req, res) => {
                     user_id: resData._id,
                     email: bodyData.email,
                     date: Date.now(),
-                    name: resData.name
+                    name: resData.name,
+                    role:resData.role
                 }
 
                 const SECRET_KEY = process.env.SECRET_KEY

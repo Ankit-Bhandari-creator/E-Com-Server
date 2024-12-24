@@ -1,5 +1,7 @@
 require('dotenv').config()
+const { ObjectId } = require('mongodb')
 const CategoryModel = require('../models/CategoryModel')
+const ImageModel = require('../models/ImageModel')
 
 
 // Add Category Controller
@@ -117,9 +119,9 @@ exports.searchCategory = async (req, res) => {
                 data: resData
             })
         }
-        else{
+        else {
             res.json({
-                message:'Failed'
+                message: 'Failed'
             })
         }
     }
@@ -129,6 +131,79 @@ exports.searchCategory = async (req, res) => {
             status: "failed",
             message: "failed to get information",
             error: error
+        })
+    }
+}
+
+// Image Upload
+
+exports.upImage = async (req, res) => {
+    try {
+        const upImage = {
+            cat_id: req.body.cat_id,
+            admin_id: req.body.admin_id,
+            Icon: req.imagePath
+        }
+
+        const resData = await ImageModel.create(upImage)
+
+        if (resData) {
+            res.json({
+                status: 'Success',
+                message: 'Successfully'
+            })
+        }
+        else {
+            res.json({
+                status: 'Failed',
+                message: 'Failed'
+            })
+        }
+    }
+    catch (error) {
+        console.log(error)
+        res.json({
+            message: 'Failed to Upload'
+        })
+    }
+}
+
+// Image Aggregate
+
+exports.ImageAggregate = async (req, res) => {
+    try {
+        const id = req.params._id
+        const resData = await ImageModel.aggregate([
+            { $match: { cat_id: new ObjectId(id) } },
+            {
+                $lookup: {
+                    from: 'images',
+                    localField: '_id',
+                    foreignField: 'cat_id',
+                    as: 'imageData'
+                }
+            }
+        ])
+
+        console.log(resData)
+
+        if (resData) {
+            res.json({
+                status: 'Success',
+                message: 'Successfully'
+            })
+        }
+        else {
+            res.json({
+                status: 'Failed',
+                message: 'Failed'
+            })
+        }
+    }
+    catch (error) {
+        console.log(error)
+        res.json({
+            message: 'Failed to Upload'
         })
     }
 }

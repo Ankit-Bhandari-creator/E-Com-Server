@@ -11,7 +11,8 @@ app.set("view engine", "ejs")
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
-app.use("/api/v8/auth", adminRouter)
+app.use("/api/v8", adminRouter)
+app.use("/images", express.static('public/Images'))
 app.use("/api/v8/category", CategoryRouter)
 app.use("/api/v8/subcategory", SubCategoryRouter)
 
