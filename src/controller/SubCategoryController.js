@@ -134,3 +134,56 @@ exports.searchSubCategory = async (req, res) => {
         })
     }
 }
+
+// Get All Sub Category
+
+exports.getAllSubCategory = async (req, res) => {
+    try {
+        const allSubCat = await SubCategoryModel.find()
+
+        if (allSubCat) {
+            res.json({
+                status: 'Success',
+                message: 'Successfully'
+            })
+        }
+        else {
+            res.json({
+                status: 'Failed',
+                message: 'Failed'
+            })
+        }
+    }
+    catch (error) {
+        res.json({
+            message: 'Fail'
+        })
+    }
+}
+
+// Get Single Sub Category
+
+exports.singleSubCategory = async (req, res) => {
+    try {
+        const getSingle = { _id: req.params.id }
+        const getSubCategory = await SubCategoryModel.findOne(getSingle)
+
+        if (getSubCategory) {
+            res.json({
+                status: 'Success',
+                message: 'Successfully'
+            })
+        }
+        else {
+            res.json({
+                status: 'Failed',
+                message: 'Failed'
+            })
+        }
+    }
+    catch (error) {
+        res.json({
+            message: 'Fail'
+        })
+    }
+}

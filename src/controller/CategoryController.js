@@ -12,6 +12,7 @@ exports.addCategory = async (req, res) => {
         const insertCat = ({
             category_name: catData.cat_name,
             category_title: catData.cat_title,
+            category_image: req.imagePath
         })
 
         const resData = await CategoryModel.create(insertCat)
@@ -170,7 +171,7 @@ exports.upImage = async (req, res) => {
 
 // Image Aggregate
 
-exports.ImageAggregate = async (req, res) => {
+exports.imageAggregate = async (req, res) => {
     try {
         const id = req.params._id
         const resData = await ImageModel.aggregate([
@@ -204,6 +205,59 @@ exports.ImageAggregate = async (req, res) => {
         console.log(error)
         res.json({
             message: 'Failed to Upload'
+        })
+    }
+}
+
+// Get All Category
+
+exports.getAllCategory = async (req, res) => {
+    try {
+        const allCat = await CategoryModel.find()
+
+        if (allCat) {
+            res.json({
+                status: 'Success',
+                message: 'Successfully'
+            })
+        }
+        else {
+            res.json({
+                status: 'Failed',
+                message: 'Failed'
+            })
+        }
+    }
+    catch (error) {
+        res.json({
+            message: 'Fail'
+        })
+    }
+}
+
+// Get Single Category
+
+exports.singleCategory = async (req, res) => {
+    try {
+        const getSingle = { _id: req.params.id }
+        const getCategory = await CategoryModel.findOne(getSingle)
+
+        if (getCategory) {
+            res.json({
+                status: 'Success',
+                message: 'Successfully'
+            })
+        }
+        else {
+            res.json({
+                status: 'Failed',
+                message: 'Failed'
+            })
+        }
+    }
+    catch (error) {
+        res.json({
+            message: 'Fail'
         })
     }
 }

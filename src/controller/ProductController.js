@@ -150,3 +150,93 @@ exports.searchProduct = async (req, res) => {
         })
     }
 }
+
+// Get All Product
+
+exports.getAllProduct = async (req, res) => {
+    try {
+        const allProduct = await ProductModel.find()
+
+        if (allProduct) {
+            res.json({
+                status: 'Success',
+                message: 'Successfully'
+            })
+        }
+        else {
+            res.json({
+                status: 'Failed',
+                message: 'Failed'
+            })
+        }
+    }
+    catch (error) {
+        res.json({
+            message: 'Fail'
+        })
+    }
+}
+
+// Get Single Product
+
+exports.singleProduct = async (req, res) => {
+    try {
+        const getSingle = { _id: req.params.id }
+        const getProduct = await ProductModel.findOne(getSingle)
+
+        if (getProduct) {
+            res.json({
+                status: 'Success',
+                message: 'Successfully'
+            })
+        }
+        else {
+            res.json({
+                status: 'Failed',
+                message: 'Failed'
+            })
+        }
+    }
+    catch (error) {
+        res.json({
+            message: 'Fail'
+        })
+    }
+}
+
+// Product Pagination
+
+exports.productPagination = async (req, res) => {
+    try {
+        const pageNo = req.query.pageno
+        const limit = 5
+        const totalCount = await ProductModel.find().count()
+        const totalPage = Math.ceil(totalCount / limit)
+
+        if (pageNo <= totalPage) {
+            const offSet = (pageNo - 1) * limit
+            const getProduct = await ProductModel.find({}).skip(offSet).limit(limit)
+            if (getProduct) {
+                res.json({
+                    status: "Success",
+                    message: "Successfully",
+                    data: getProduct,
+                    pages: totalPage
+                })
+            }
+            else {
+                res.json({
+                    status: "Failed",
+                    message: "Failed"
+                })
+            }
+        }
+    }
+    catch (error) {
+        console.log(error)
+        res.json({
+            status: "Failed",
+            message: "Failed"
+        })
+    }
+}

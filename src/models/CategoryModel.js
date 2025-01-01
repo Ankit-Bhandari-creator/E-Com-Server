@@ -5,7 +5,8 @@ const { collection } = require('../db/collection')
 const CategorySchema = mongoose.Schema({
     category_name: { type: String },
     category_title: { type: String },
-    status: { type: Boolean, default: false }
+    status: { type: Boolean, default: false },
+    category_image:{type:String}
 },
     { timestamps: true })
 
