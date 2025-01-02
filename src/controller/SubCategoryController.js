@@ -10,7 +10,8 @@ exports.addsubCategory = async (req, res) => {
         const insertSubData = ({
             sub_catName: subCat.sub_catName,
             sub_catTitle: subCat.sub_catTitle,
-            cat_id: new ObjectId(subCat.cat_id)
+            cat_id: new ObjectId(subCat.cat_id),
+            sub_catImage: req.imagePath
         })
 
         const resData = await SubCategoryModel.create(insertSubData)
